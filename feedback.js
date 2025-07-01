@@ -18,6 +18,10 @@
     textButton: rawConfig?.textButton ?? dataset?.textButton ?? '📝 Rate your experience',
     textSubmit: rawConfig?.textSubmit ?? dataset?.textSubmit ?? 'Kirim',
     descriptionScore: rawConfig?.descriptionScore ?? dataset?.descriptionScore,
+    illustration:
+      rawConfig?.illustration ??
+      dataset?.illustration ??
+      'https://www.pngall.com/wp-content/uploads/12/Illustration-PNG-Free-Image.png',
     // API
     api: rawConfig?.api ?? dataset?.api ?? 'https://nps-be.telkom-digital.id/v1/responses',
     apiMethod: rawConfig?.apiMethod ?? dataset?.apiMethod ?? 'POST',
@@ -143,19 +147,94 @@
       cursor: pointer;
       font-size: 14px;
     }
-      #submit-feedback:disabled {
+    #submit-feedback:disabled {
       background: #ccc;
       cursor: not-allowed;
     }
 
     #close-popup {
       position: absolute;
-      top: 12px;
+      top: 16px;
+      left: 16px;
       background: none;
       border: none;
-      font-size: 18px;
+      font-size: 24px;
+      font-weight: light;
       cursor: pointer;
       color: ${config.theme === 'dark' ? 'white' : 'black'};
+    }
+
+    .feedback-title {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    /* -------------------MODAL------------------- */
+    #feedback-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(2px);
+      z-index: 9998;
+      display: none;
+    }
+    #feedback-modal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: ${config.theme === 'dark' ? '#222' : 'white'};
+      color: ${config.theme === 'dark' ? 'white' : 'black'};
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+      z-index: 9999;
+      width: 350px;
+      max-width: 90%;
+      padding: 0;
+      overflow-y: scroll;
+      display: none;
+      padding: 20px;
+      max-height: 90vh;
+    }
+    #feedback-modal.open, #feedback-overlay.open {
+        display: block;
+    }
+
+    .modal-illustration {
+      flex: 1;
+      background: #fef3f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      border-radius: 12px;
+    }
+
+    .modal-illustration img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 12px;
+    }
+
+    .modal-form {
+      flex: 1;
+      padding: 24px;
+      position: relative;
+    }
+
+    .modal-form h4 {
+      font-size: 18px;
+      margin-top: 0;
+    }
+
+    .modal-scores {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 8px;
+      margin: 12px 0;
     }
   `;
   document.head.appendChild(style);
@@ -164,7 +243,6 @@
   // TAB OR BUTTON TOGGLE POPUP
   const tab = document.createElement('div');
   tab.id = 'feedback-tab';
-  // tab.innerText = config.textButton;
   tab.innerHTML = `
     <span class="tab-content">
       ${config.textButton}
@@ -178,31 +256,55 @@
 
   /* -------------------------------------- */
 
+  // OVERLAY
+  const overlay = document.createElement('div');
+  overlay.id = 'feedback-overlay';
+  document.body.appendChild(overlay);
+
+  /* -------------------------------------- */
+
   // POPUP
+  const isModal = config.variant === 'modal';
   const popup = document.createElement('div');
-  popup.id = 'feedback-popup';
+  popup.id = isModal ? 'feedback-modal' : 'feedback-popup';
   document.body.appendChild(popup);
   const isFeedbackSent = localStorage.getItem(FEEDBACKSENT_KEY) === '1';
 
   if (isFeedbackSent) {
-    // <button id="close-popup">&times;</button>
     popup.innerHTML = `
       <h4 style="margin-top: 40px; text-align: center;">
         ${config.thankyou}
       </h4>
     `;
   } else {
-    popup.innerHTML = `
-      <h4>${config.title}</h4>
-      <div id="scores"></div>
-      ${
-        config.descriptionScore &&
-        `<p id="score-description">
-        ${config.descriptionScore}
-        </p>`
-      }
-      <button id="submit-feedback" disabled>${config.textSubmit}</button>
+    if (isModal) {
+      popup.innerHTML = `
+      <div class="modal-wrapper">
+        <div class="modal-illustration">
+          <img src=${config.illustration} alt="Feedback" />
+        </div>
+        <div class="modal-content">
+          <button id="close-popup">&times;</button>
+          <h4 class="feedback-title">${config.title}</h4>
+          <div id="scores" class="modal-scores"></div>
+          <p id="score-description">${config.descriptionScore}</p>
+          <button id="submit-feedback" disabled>Submit</button>
+        </div>
+      </div>
     `;
+    } else {
+      popup.innerHTML = `
+        <h4>${config.title}</h4>
+        <div id="scores"></div>
+        ${
+          config.descriptionScore &&
+          `<p id="score-description">
+          ${config.descriptionScore}
+          </p>`
+        }
+          <button id="submit-feedback" disabled>${config.textSubmit}</button>
+      `;
+    }
   }
   /* -------------------------------------- */
 
@@ -236,10 +338,21 @@
   const chevronIcon = tab.querySelector('.chevron-icon');
   tab.addEventListener('click', () => {
     const isOpen = popup.classList.toggle('open');
+    overlay.classList.toggle('open');
     chevronIcon.style.transform = isOpen ? 'rotate(270deg)' : 'rotate(90deg)';
   });
   popup.querySelector('#close-popup')?.addEventListener('click', () => {
     popup.classList.remove('open');
+    chevronIcon.style.transform = 'rotate(90deg)';
+  });
+  overlay.addEventListener('click', () => {
+    popup.classList.remove('open');
+    overlay.classList.toggle('open');
+    chevronIcon.style.transform = 'rotate(90deg)';
+  });
+  popup.querySelector('#close-popup')?.addEventListener('click', () => {
+    popup.classList.remove('open');
+    overlay.classList.toggle('open');
     chevronIcon.style.transform = 'rotate(90deg)';
   });
 
@@ -249,6 +362,7 @@
       alert('Pilih skor terlebih dahulu');
       return;
     }
+    submitButton.innerHTML = 'Submitting...';
 
     // Simpan ke backend
     fetch(config.api, {
@@ -264,8 +378,7 @@
     })
       .then((res) => res.json())
       .then((res) => {
-        if (res.status === 'success') {
-          console.log(res);
+        if (Number(res.statusCode) === 200) {
           localStorage.setItem(FEEDBACKSENT_KEY, '1');
 
           popup.innerHTML = `
@@ -273,11 +386,17 @@
             ${config.thankyou}
           </h4>
         `;
-          setTimeout(() => popup.classList.remove('open'), 2000);
+          setTimeout(() => {
+            popup.classList.remove('open');
+            overlay.classList.remove('open');
+          }, 2000);
         }
       })
       .catch(() => {
         console.warn('Gagal mengirim feedback');
+      })
+      .finally(() => {
+        submitButton.innerHTML = config.textSubmit;
       });
   });
 })();
