@@ -28,7 +28,7 @@
     // OTHERS
     customerId: rawConfig?.customerId ?? dataset?.customerId,
     surveyId: rawConfig?.surveyId ?? dataset?.surveyId,
-    variant: rawConfig?.variant ?? dataset?.variant,
+    variant: rawConfig?.variant ?? dataset?.variant ?? 'modal',
   };
   const FEEDBACKSENT_KEY = 'feedbackSent';
 
