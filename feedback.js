@@ -319,7 +319,7 @@
         <div class="modal-content">
           <h4 class="fm_feedback-title">${config.title}</h4>
           <div id="scores" class="modal-scores"></div>
-          <p id="score-description">${config.descriptionScore}</p>
+          ${config.descriptionScore && `<p id="score-description">${config.descriptionScore}</p>`}
           <div style="width:100%;">
             <textarea id="fm_feedback-comment" placeholder="Berikan komentar Anda..." rows="3"></textarea>
           </div>
