@@ -1,4 +1,4 @@
-# 📢 FeedbackUs
+# 📢 FeedbackMe
 
 Widget feedback ringan yang bisa di-embed ke website mana pun. Mendukung popup dari sisi kanan atau modal tengah layar. Konfigurasi mudah via `window.FeedbackConfig` atau `data-\*` attributes.
 
@@ -17,20 +17,17 @@ Widget feedback ringan yang bisa di-embed ke website mana pun. Mendukung popup d
     textButton: '📝 Beri Feedback', //Optional
     textSubmit: 'Kirim', //Optional
     descriptionScore: '0 = Sangat tidak mungkin, 10 = Sangat mungkin', //Optional
-    illustration: 'https://yourcdn.com/your-illustration.png', //Optional
-    api: 'https://your-backend.com/api/feedback', //Optional
-    apiMethod: 'POST', //Optional
   };
 </script>
 
-<script src="https://cdn.jsdelivr.net/gh/<username-github>/<repository-github>/path/to/feedback.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/solehudin5699/feedbackMe/feedback.min.js"></script>
 ```
 
 Or use `data-*` attributes:
 
 ```html
 <script
-  src="https://cdn.jsdelivr.net/gh/<username-github>/<repository-github>/path/to/feedback.js"
+  src="https://cdn.jsdelivr.net/gh/solehudin5699/feedbackMe/feedback.min.js"
   data-project-id="myproject"
   data-theme="dark"
   data-title="Beri kami feedback!"
