@@ -280,11 +280,11 @@
     if (isModal) {
       popup.innerHTML = `
       <div class="modal-wrapper">
+      <button id="fm_close-popup">&times;</button>
         <div class="fm_modal-illustration">
           <img src=${config.illustration} alt="Feedback" />
         </div>
         <div class="modal-content">
-          <button id="fm_close-popup">&times;</button>
           <h4 class="fm_feedback-title">${config.title}</h4>
           <div id="scores" class="modal-scores"></div>
           <p id="score-description">${config.descriptionScore}</p>
