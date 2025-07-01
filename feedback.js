@@ -37,7 +37,7 @@
   // STYLE
   const style = document.createElement('style');
   style.innerHTML = `
-    #feedback-tab {
+    #fm_feedback-tab {
       position: fixed;
       top: 50%;
       right: 0;
@@ -54,7 +54,7 @@
       z-index: 9999;
     }
 
-    #feedback-tab .tab-content {
+    #fm_feedback-tab .tab-content {
       writing-mode: vertical-rl;
       text-orientation: mixed;
       display: inline-block;
@@ -62,7 +62,7 @@
       position: relative;
     }
 
-    #feedback-tab .chevron {
+    #fm_feedback-tab .chevron {
       display: inline-block;
       transform: rotate(90deg);
       font-size: 16px;
@@ -70,7 +70,7 @@
       transition: transform 0.3s ease;
     }
 
-    #feedback-tab .chevron-icon {
+    #fm_feedback-tab .chevron-icon {
       display: inline-block;
       transform: rotate(90deg);
       transition: transform 0.3s ease;
@@ -78,11 +78,11 @@
       font-size: 16px;
     }
 
-    #feedback-popup.open ~ #feedback-tab .chevron {
+    #fm_feedback-popup.open ~ #fm_feedback-tab .chevron {
       transform: rotate(180deg); /* mengarah ke bawah */
     }
 
-    #feedback-popup {
+    #fm_feedback-popup {
       position: fixed;
       top: 50%;
       transform: translateY(-50%);
@@ -106,11 +106,11 @@
       place-content: center;
     }
 
-    #feedback-popup.open {
+    #fm_feedback-popup.open {
       right: 0;
     }
 
-    #feedback-popup h4 {
+    #fm_feedback-popup h4 {
       margin-top: 0;
       font-size: 16px;
     }
@@ -152,7 +152,7 @@
       cursor: not-allowed;
     }
 
-    #close-popup {
+    #fm_close-popup {
       position: absolute;
       top: 16px;
       left: 16px;
@@ -164,14 +164,14 @@
       color: ${config.theme === 'dark' ? 'white' : 'black'};
     }
 
-    .feedback-title {
+    .fm_feedback-title {
       font-size: 16px;
       font-weight: bold;
       margin-bottom: 10px;
     }
 
     /* -------------------MODAL------------------- */
-    #feedback-overlay {
+    #fm_feedback-overlay {
       position: fixed;
       top: 0; left: 0;
       width: 100vw;
@@ -181,7 +181,7 @@
       z-index: 9998;
       display: none;
     }
-    #feedback-modal {
+    #fm_feedback-modal {
       position: fixed;
       top: 50%;
       left: 50%;
@@ -199,11 +199,11 @@
       padding: 20px;
       max-height: 90vh;
     }
-    #feedback-modal.open, #feedback-overlay.open {
+    #fm_feedback-modal.open, #fm_feedback-overlay.open {
         display: block;
     }
 
-    .modal-illustration {
+    .fm_modal-illustration {
       flex: 1;
       background: #fef3f2;
       display: flex;
@@ -213,7 +213,7 @@
       border-radius: 12px;
     }
 
-    .modal-illustration img {
+    .fm_modal-illustration img {
       max-width: 100%;
       height: auto;
       border-radius: 12px;
@@ -242,7 +242,7 @@
 
   // TAB OR BUTTON TOGGLE POPUP
   const tab = document.createElement('div');
-  tab.id = 'feedback-tab';
+  tab.id = 'fm_feedback-tab';
   tab.innerHTML = `
     <span class="tab-content">
       ${config.textButton}
@@ -258,7 +258,7 @@
 
   // OVERLAY
   const overlay = document.createElement('div');
-  overlay.id = 'feedback-overlay';
+  overlay.id = 'fm_feedback-overlay';
   document.body.appendChild(overlay);
 
   /* -------------------------------------- */
@@ -266,7 +266,7 @@
   // POPUP
   const isModal = config.variant === 'modal';
   const popup = document.createElement('div');
-  popup.id = isModal ? 'feedback-modal' : 'feedback-popup';
+  popup.id = isModal ? 'fm_feedback-modal' : 'fm_feedback-popup';
   document.body.appendChild(popup);
   const isFeedbackSent = localStorage.getItem(FEEDBACKSENT_KEY) === '1';
 
@@ -280,12 +280,12 @@
     if (isModal) {
       popup.innerHTML = `
       <div class="modal-wrapper">
-        <div class="modal-illustration">
+        <div class="fm_modal-illustration">
           <img src=${config.illustration} alt="Feedback" />
         </div>
         <div class="modal-content">
-          <button id="close-popup">&times;</button>
-          <h4 class="feedback-title">${config.title}</h4>
+          <button id="fm_close-popup">&times;</button>
+          <h4 class="fm_feedback-title">${config.title}</h4>
           <div id="scores" class="modal-scores"></div>
           <p id="score-description">${config.descriptionScore}</p>
           <button id="submit-feedback" disabled>Submit</button>
@@ -341,7 +341,7 @@
     overlay.classList.toggle('open');
     chevronIcon.style.transform = isOpen ? 'rotate(270deg)' : 'rotate(90deg)';
   });
-  popup.querySelector('#close-popup')?.addEventListener('click', () => {
+  popup.querySelector('#fm_close-popup')?.addEventListener('click', () => {
     popup.classList.remove('open');
     chevronIcon.style.transform = 'rotate(90deg)';
   });
@@ -350,7 +350,7 @@
     overlay.classList.toggle('open');
     chevronIcon.style.transform = 'rotate(90deg)';
   });
-  popup.querySelector('#close-popup')?.addEventListener('click', () => {
+  popup.querySelector('#fm_close-popup')?.addEventListener('click', () => {
     popup.classList.remove('open');
     overlay.classList.toggle('open');
     chevronIcon.style.transform = 'rotate(90deg)';
