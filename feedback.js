@@ -35,8 +35,16 @@
   /* -------------------------------------- */
 
   // STYLE
+  const fontLink = document.createElement('link');
+  fontLink.href = 'https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap';
+  fontLink.rel = 'stylesheet';
+  document.head.appendChild(fontLink);
+
   const style = document.createElement('style');
   style.innerHTML = `
+    *{
+      box-sizing: border-box;
+    }
     #fm_feedback-tab {
       position: fixed;
       top: 50%;
@@ -52,6 +60,7 @@
       cursor: pointer;
       font-family: sans-serif;
       z-index: 9999;
+      font-family: 'Inter', sans-serif;
     }
 
     #fm_feedback-tab .tab-content {
@@ -60,6 +69,7 @@
       display: inline-block;
       font-weight: semiibold;;
       position: relative;
+      font-family: 'Inter', sans-serif;
     }
 
     #fm_feedback-tab .chevron {
@@ -104,6 +114,7 @@
       padding-right: 60px;
       display: grid;
       place-content: center;
+      font-family: 'Inter', sans-serif;
     }
 
     #fm_feedback-popup.open {
@@ -122,6 +133,7 @@
       border-radius: 6px;
       cursor: pointer;
       background: #f9f9f9;
+      font-family: 'Inter', sans-serif;
     }
 
     .score-button.selected {
@@ -134,6 +146,7 @@
       color: ${config.theme === 'dark' ? 'white' : '#666'};
       margin-top: 4px;
       margin-bottom: 10px;
+      font-family: 'Inter', sans-serif;
     }
 
     #submit-feedback {
@@ -146,6 +159,7 @@
       border-radius: 12px;
       cursor: pointer;
       font-size: 14px;
+      font-family: 'Inter', sans-serif;
     }
     #submit-feedback:disabled {
       background: #ccc;
@@ -168,6 +182,7 @@
       font-size: 16px;
       font-weight: bold;
       margin-bottom: 10px;
+      font-family: 'Inter', sans-serif;
     }
 
     /* -------------------MODAL------------------- */
@@ -198,6 +213,7 @@
       display: none;
       padding: 20px;
       max-height: 90vh;
+      font-family: 'Inter', sans-serif;
     }
     #fm_feedback-modal.open, #fm_feedback-overlay.open {
         display: block;
@@ -235,6 +251,22 @@
       grid-template-columns: repeat(6, 1fr);
       gap: 8px;
       margin: 12px 0;
+    }
+
+    #fm_feedback-comment{
+      width: 100%;
+      padding:8px;
+      margin-top:12px;
+      border:1px solid #ccc;
+      border-radius:6px;
+      font-size:14px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    #fm_feedback-comment:placeholder {
+      color: #999;
+      font-style: italic;
+      font-family: 'Inter', sans-serif;
     }
   `;
   document.head.appendChild(style);
@@ -288,6 +320,9 @@
           <h4 class="fm_feedback-title">${config.title}</h4>
           <div id="scores" class="modal-scores"></div>
           <p id="score-description">${config.descriptionScore}</p>
+          <div style="width:100%;">
+            <textarea id="fm_feedback-comment" placeholder="Berikan komentar Anda..." rows="3"></textarea>
+          </div>
           <button id="submit-feedback" disabled>Submit</button>
         </div>
       </div>
@@ -332,6 +367,9 @@
     }
   }
 
+  // COMMENT INPUT
+  const comment = popup.querySelector('#fm_feedback-comment');
+
   /* -------------------------------------- */
   // EVENT LISTENERS
   // Toggle popup
@@ -372,7 +410,7 @@
         customer_id: config.surveyId,
         survey_id: config.custommerId,
         score: selectedScore,
-        comment: 'Great product, but could use more features.',
+        comment: comment?.value ?? '',
         response_date: new Date().toISOString(),
       }),
     })
