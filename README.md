@@ -40,6 +40,10 @@ Or use `data-*` attributes:
 ></script>
 ```
 
+# Dyanamic Configuration
+
+Use `window.FeedbackConfig.[key] = value` to configure the widget.
+
 # Full Configuration
 
 | Option           | Type   | Description                                   |
