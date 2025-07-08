@@ -416,7 +416,7 @@
     })
       .then((res) => res.json())
       .then((res) => {
-        if (Number(res.statusCode) === 200) {
+        if (Number(res.statusCode) === 201) {
           localStorage.setItem(FEEDBACKSENT_KEY, '1');
 
           popup.innerHTML = `
