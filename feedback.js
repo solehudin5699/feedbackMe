@@ -428,10 +428,14 @@
             popup.classList.remove('open');
             overlay.classList.remove('open');
           }, 2000);
+        } else {
+          alert('Gagal mengirim feedback');
+          console.warn('Gagal mengirim feedback');
         }
       })
       .catch(() => {
         console.warn('Gagal mengirim feedback');
+        alert('Gagal mengirim feedback');
       })
       .finally(() => {
         submitButton.innerHTML = config.textSubmit;
