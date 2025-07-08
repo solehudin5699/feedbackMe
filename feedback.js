@@ -23,7 +23,7 @@
       dataset?.illustration ??
       'https://www.pngall.com/wp-content/uploads/12/Illustration-PNG-Free-Image.png',
     // API
-    api: rawConfig?.api ?? dataset?.api ?? 'https://nps-be.telkom-digital.id/v1/feedback',
+    api: rawConfig?.api ?? dataset?.api ?? 'https://nps-api.telkom-digital.id/v1/feedback',
     apiMethod: rawConfig?.apiMethod ?? dataset?.apiMethod ?? 'POST',
     // OTHERS
     customerId: rawConfig?.customerId ?? dataset?.customerId,
