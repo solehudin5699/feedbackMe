@@ -23,7 +23,7 @@
       dataset?.illustration ??
       'https://www.pngall.com/wp-content/uploads/12/Illustration-PNG-Free-Image.png',
     // API
-    api: rawConfig?.api ?? dataset?.api ?? 'https://nps-be.telkom-digital.id/v1/responses',
+    api: rawConfig?.api ?? dataset?.api ?? 'https://nps-be.telkom-digital.id/v1/feedback',
     apiMethod: rawConfig?.apiMethod ?? dataset?.apiMethod ?? 'POST',
     // OTHERS
     customerId: rawConfig?.customerId ?? dataset?.customerId,
@@ -407,8 +407,8 @@
       method: config.apiMethod,
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        customer_id: config.surveyId,
-        survey_id: config.custommerId,
+        customer_id: config.customerId,
+        survey_id: config.surveyId,
         score: selectedScore,
         comment: comment?.value ?? '',
         response_date: new Date().toISOString(),
