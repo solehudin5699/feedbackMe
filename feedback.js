@@ -416,22 +416,23 @@
     })
       .then((res) => res.json())
       .then((res) => {
-        if (Number(res.statusCode) === 201) {
-          localStorage.setItem(FEEDBACKSENT_KEY, '1');
+        // if (Number(res.statusCode) === 201) {
+        localStorage.setItem(FEEDBACKSENT_KEY, '1');
 
-          popup.innerHTML = `
+        popup.innerHTML = `
           <h4 style="margin-top: 40px; text-align: center;">
             ${config.thankyou}
           </h4>
         `;
-          setTimeout(() => {
-            popup.classList.remove('open');
-            overlay.classList.remove('open');
-          }, 2000);
-        } else {
-          alert('Gagal mengirim feedback');
-          console.warn('Gagal mengirim feedback');
-        }
+        setTimeout(() => {
+          popup.classList.remove('open');
+          overlay.classList.remove('open');
+        }, 2000);
+        // }
+        //  else {
+        //   alert('Gagal mengirim feedback');
+        //   console.warn('Gagal mengirim feedback');
+        // }
       })
       .catch(() => {
         console.warn('Gagal mengirim feedback');
